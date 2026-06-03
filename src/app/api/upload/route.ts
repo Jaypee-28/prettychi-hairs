@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
 
     // Upload to Cloudinary
     const result = await cloudinary.uploader.upload(dataUri, {
-      folder: "hairven",
+      folder: "prettychi-hairs",
       resource_type: resourceType,
       // Apply auto-quality and format for images
       ...(resourceType === "image" && {

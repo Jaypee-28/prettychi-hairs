@@ -65,7 +65,7 @@ export default function AdminSidebar({
             <div className="w-10 h-10 bg-gradient-to-tr from-[#FF4D8D] to-[#FF80AC] rounded-[14px] flex items-center justify-center text-white shadow-lg shadow-pink-200 group-hover:scale-105 transition-transform duration-300">
               <ShoppingBag size={20} strokeWidth={2.5} />
             </div>
-            <span className="text-2xl font-black tracking-tight text-gray-900">LIZZY&apos;S<span className="text-[#FF4D8D]">.</span></span>
+            <span className="text-2xl font-black tracking-tight text-gray-900">PRETTY CHI<span className="text-[#FF4D8D]">.</span></span>
           </Link>
           
           <button 

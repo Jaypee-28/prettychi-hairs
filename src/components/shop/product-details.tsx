@@ -133,19 +133,35 @@ export function ProductDetails({ product }: ProductDetailsProps) {
 
   // Sync selected options with URL
   const [selectedOptions, setSelectedOptions] = useState<Record<string, string>>(() => {
-    const params = new URLSearchParams(typeof window !== "undefined" ? window.location.search : "");
     const initial: Record<string, string> = {};
-    
+    // Safe initialization without window for SSR matching
     attributes.forEach((attr) => {
-      const urlValue = params.get(attr.name);
-      if (urlValue && attr.values.includes(urlValue)) {
-        initial[attr.name] = urlValue;
-      } else if (attr.values.length > 0) {
+      if (attr.values.length > 0) {
         initial[attr.name] = attr.values[0];
       }
     });
     return initial;
   });
+
+  // Sync with URL params on mount
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    let shouldUpdate = false;
+    const syncedOptions = { ...selectedOptions };
+    
+    attributes.forEach((attr) => {
+      const urlValue = params.get(attr.name);
+      if (urlValue && attr.values.includes(urlValue) && syncedOptions[attr.name] !== urlValue) {
+        syncedOptions[attr.name] = urlValue;
+        shouldUpdate = true;
+      }
+    });
+
+    if (shouldUpdate) {
+      setSelectedOptions(syncedOptions);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [attributes]);
 
   // Update URL when options change
   useEffect(() => {
@@ -260,7 +276,7 @@ export function ProductDetails({ product }: ProductDetailsProps) {
               />
             ) : (
               <div className="w-full h-full flex items-center justify-center text-gray-200">
-                <span className="text-5xl font-black tracking-tighter opacity-10">HAIRVEN</span>
+                <span className="text-4xl font-black tracking-tighter opacity-10 text-center px-4">PRETTYCHI<br/>HAIRS</span>
               </div>
             )}
 

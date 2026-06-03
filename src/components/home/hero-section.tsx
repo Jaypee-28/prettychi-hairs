@@ -4,13 +4,12 @@ import { HeroContent, HeroData } from "./hero-content";
 // ── Defaults ─────────────────────────────────────────────────────────────────
 
 const DEFAULT_HERO_WORDS = [
-  "Beauty Consultant",
-  "Premium Hair",
-  "Make-up",
-  "Lashes",
-  "Soft Glam",
-  "Bridal",
-  "Wig Installs",
+  "Raw Donor Hair",
+  "Luxury Wigs",
+  "Bone Straight",
+  "Frontals & Closures",
+  "Seamless Installs",
+  "Bespoke Coloring",
 ];
 
 // ── Server Component ─────────────────────────────────────────────────────────

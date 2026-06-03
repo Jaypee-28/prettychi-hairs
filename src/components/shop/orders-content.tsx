@@ -167,7 +167,7 @@ function OrderTableRow({ order }: { order: Order }) {
       </td>
       <td className="px-6 py-5">
         <span className="text-sm font-black text-gray-900">
-          £{order.totalAmount.toFixed(2)}
+          ₦{order.totalAmount.toFixed(2)}
         </span>
       </td>
       <td className="px-6 py-5">
@@ -226,7 +226,7 @@ function OrderCard({ order }: { order: Order }) {
           {format(new Date(order.createdAt), "dd MMM yyyy")}
         </span>
         <span className="text-lg font-black text-gray-900">
-          £{order.totalAmount.toFixed(2)}
+          ₦{order.totalAmount.toFixed(2)}
         </span>
       </div>
 

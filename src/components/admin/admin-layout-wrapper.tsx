@@ -22,7 +22,7 @@ export default function AdminLayoutWrapper({
   }, [pathname]);
 
   // Admin login page — render without dashboard shell
-  if (pathname === "/admin/motioncodes") {
+  if (pathname === "/admin/login") {
     return <>{children}</>;
   }
 

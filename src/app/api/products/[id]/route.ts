@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { productService } from "@/modules/products/product.service";
 import { UpdateProductSchema } from "@/modules/products/product.schema";
 
@@ -18,6 +19,7 @@ export async function PATCH(req: Request, { params }: { params: Promise<{ id: st
     const body = await req.json();
     const parsed = UpdateProductSchema.parse(body);
     const product = await productService.updateProduct(id, parsed);
+    revalidatePath("/", "layout");
     return NextResponse.json(product);
   } catch (error: any) {
     if (error.name === "ZodError") {
@@ -31,6 +33,7 @@ export async function DELETE(req: Request, { params }: { params: Promise<{ id: s
   try {
     const { id } = await params;
     await productService.deleteProduct(id);
+    revalidatePath("/", "layout");
     return NextResponse.json({ success: true });
   } catch (error: any) {
     return NextResponse.json({ error: error.message }, { status: 500 });

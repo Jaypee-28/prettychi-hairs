@@ -59,7 +59,7 @@ function PaymentContent() {
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "Failed to initiate payment");
 
-      // Redirect to Stripe
+      // Redirect to Paystack
       window.location.href = data.url;
     } catch (error: any) {
       toast.error(error.message);
@@ -114,7 +114,7 @@ function PaymentContent() {
                       <p className="text-sm font-bold text-gray-900 truncate uppercase">{item.productName}</p>
                       <p className="text-xs font-bold text-gray-400 mt-0.5">Qty: {item.quantity}</p>
                     </div>
-                    <p className="text-sm font-black text-gray-900">£{parseFloat(item.price).toFixed(2)}</p>
+                    <p className="text-sm font-black text-gray-900">₦{parseFloat(item.price).toFixed(2)}</p>
                   </div>
                 ))}
               </div>
@@ -122,15 +122,15 @@ function PaymentContent() {
               <div className="pt-6 border-t border-gray-50 space-y-3">
                 <div className="flex justify-between text-sm font-bold text-gray-500">
                   <span>Subtotal</span>
-                  <span>£{(parseFloat(order.totalAmount) - parseFloat(order.deliveryFee)).toFixed(2)}</span>
+                  <span>₦{(parseFloat(order.totalAmount) - parseFloat(order.deliveryFee)).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between text-sm font-bold text-gray-500">
                   <span>Delivery</span>
-                  <span>£{parseFloat(order.deliveryFee).toFixed(2)}</span>
+                  <span>₦{parseFloat(order.deliveryFee).toFixed(2)}</span>
                 </div>
                 <div className="flex justify-between items-end pt-2">
                   <span className="text-xs font-black text-gray-400 uppercase tracking-widest">Total</span>
-                  <span className="text-3xl font-black text-[#FF4D8D]">£{parseFloat(order.totalAmount).toFixed(2)}</span>
+                  <span className="text-3xl font-black text-[#FF4D8D]">₦{parseFloat(order.totalAmount).toFixed(2)}</span>
                 </div>
               </div>
             </div>
@@ -161,7 +161,7 @@ function PaymentContent() {
                   <CreditCard size={32} strokeWidth={2.5} />
                 </div>
                 <h3 className="text-xl font-black text-gray-900 uppercase">Secure Payment</h3>
-                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Powered by Stripe</p>
+                <p className="text-xs font-bold text-gray-400 uppercase tracking-widest">Powered by Paystack</p>
               </div>
 
               <div className="space-y-4">
@@ -174,7 +174,7 @@ function PaymentContent() {
                     <Loader2 className="animate-spin" size={24} />
                   ) : (
                     <>
-                      Pay Now £{parseFloat(order.totalAmount).toFixed(2)}
+                      Pay Now ₦{parseFloat(order.totalAmount).toFixed(2)}
                       <ChevronRight size={20} strokeWidth={3} />
                     </>
                   )}

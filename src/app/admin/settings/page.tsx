@@ -65,7 +65,7 @@ export default function AdminSettingsPage() {
   const [heroSubtitle, setHeroSubtitle] = useState("");
   const [heroPrimaryCTA, setHeroPrimaryCTA] = useState("");
   const [heroSecondaryCTA, setHeroSecondaryCTA] = useState("");
-  const [currency, setCurrency] = useState("GBP");
+  const [currency, setCurrency] = useState("NGN");
 
   useEffect(() => {
     fetchSettings();
@@ -94,7 +94,7 @@ export default function AdminSettingsPage() {
       setHeroSubtitle(data.heroSubtitle || "");
       setHeroPrimaryCTA(data.heroPrimaryCTA || "");
       setHeroSecondaryCTA(data.heroSecondaryCTA || "");
-      setCurrency(data.currency || "GBP");
+      setCurrency(data.currency || "NGN");
 
       if (Array.isArray(data.heroWords) && data.heroWords.length > 0) {
         setHeroWords(data.heroWords as string[]);
@@ -324,10 +324,10 @@ export default function AdminSettingsPage() {
               onChange={(e) => setCurrency(e.target.value)}
               className={INPUT}
             >
-              <option value="GBP">GBP (£) - British Pound</option>
+              <option value="NGN">NGN (₦) - Nigerian Naira</option>
               <option value="USD">USD ($) - US Dollar</option>
               <option value="EUR">EUR (€) - Euro</option>
-              <option value="NGN">NGN (₦) - Nigerian Naira</option>
+              <option value="GBP">GBP (£) - British Pound</option>
               <option value="CAD">CAD ($) - Canadian Dollar</option>
               <option value="XAF">XAF (FCFA) - Central African CFA Franc</option>
             </select>

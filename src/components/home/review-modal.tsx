@@ -71,7 +71,7 @@ export function ReviewModal({ isOpen, onClose }: ReviewModalProps) {
           <form onSubmit={handleSubmit} className="p-8 md:p-12 space-y-8">
             <div className="space-y-2">
               <h3 className="text-3xl font-black text-gray-900 tracking-tight">Share Your Experience</h3>
-              <p className="text-gray-500 font-medium">We'd love to hear about your journey with Hairven.</p>
+              <p className="text-gray-500 font-medium">We'd love to hear about your journey with Prettychi.</p>
             </div>
 
             <div className="space-y-6">

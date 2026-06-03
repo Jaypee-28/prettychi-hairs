@@ -26,36 +26,6 @@ export class OrderService {
       deliveryFee
     });
 
-    // 3. Send emails (non-blocking — failures are logged, not thrown)
-    const emailData = {
-      orderId: order.id,
-      customerName: data.fullName,
-      customerEmail: data.email,
-      items: order.items.map((item) => ({
-        productName: item.productName,
-        quantity: item.quantity,
-        price: Number(item.price),
-      })),
-      totalAmount,
-      deliveryFee,
-      deliveryAddress: {
-        addressLine1: data.addressLine1,
-        addressLine2: data.addressLine2,
-        city: data.city,
-        state: data.state,
-        postalCode: data.postalCode,
-        country: data.country,
-      },
-    };
-
-    // Fire emails in parallel, don't await blocking
-    Promise.all([
-      sendOrderConfirmationEmail(emailData),
-      sendNewOrderAdminAlert(emailData),
-    ]).catch((err) => {
-      console.error("[OrderService] Email dispatch failed:", err);
-    });
-
     return order;
   }
 
@@ -74,7 +44,43 @@ export class OrderService {
   }
 
   async updateOrderStatus(id: string, status: OrderStatus, paymentStatus?: PaymentStatus) {
-    return orderRepository.updateStatus(id, status, paymentStatus);
+    const order = await orderRepository.updateStatus(id, status, paymentStatus);
+
+    if (paymentStatus === "SUCCESS") {
+      const emailData = {
+        orderId: order.id,
+        customerName: order.fullName,
+        customerEmail: order.email,
+        items: order.items.map((item) => ({
+          productName: item.productName,
+          quantity: item.quantity,
+          price: Number(item.price),
+        })),
+        totalAmount: Number(order.totalAmount),
+        deliveryFee: Number(order.deliveryFee),
+        deliveryAddress: {
+          addressLine1: order.addressLine1,
+          addressLine2: order.addressLine2 || undefined,
+          city: order.city,
+          state: order.state || undefined,
+          postalCode: order.postalCode || undefined,
+          country: order.country,
+        },
+      };
+
+      Promise.all([
+        sendOrderConfirmationEmail(emailData),
+        sendNewOrderAdminAlert(emailData),
+      ]).catch((err) => {
+        console.error("[OrderService] Email dispatch failed:", err);
+      });
+    }
+
+    return order;
+  }
+
+  async updatePaystackReference(id: string, reference: string) {
+    return orderRepository.updatePaystackReference(id, reference);
   }
 }
 

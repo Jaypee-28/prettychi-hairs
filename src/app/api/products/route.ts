@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { productService } from "@/modules/products/product.service";
 import { CreateProductSchema } from "@/modules/products/product.schema";
 
@@ -45,6 +46,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const parsed = CreateProductSchema.parse(body);
     const product = await productService.createProduct(parsed);
+    revalidatePath("/", "layout");
     return NextResponse.json(product, { status: 201 });
   } catch (error: any) {
     if (error.name === "ZodError") {

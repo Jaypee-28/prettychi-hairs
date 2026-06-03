@@ -110,7 +110,7 @@ export function Footer() {
             © {currentYear} PRETTY CHI HAIRS. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
-            <span className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Secure Payments via Stripe</span>
+            <span className="text-gray-400 text-[10px] font-bold uppercase tracking-widest">Secure Payments via Paystack</span>
             {/* Add payment icons placeholder if needed */}
           </div>
         </div>

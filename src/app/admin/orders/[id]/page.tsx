@@ -252,13 +252,13 @@ export default async function AdminOrderDetailPage({
                   {paymentBadge.label}
                 </span>
               </div>
-              {order.stripePaymentIntentId && (
+              {order.paystackReference && (
                 <div>
                   <p className="text-xs text-gray-400 font-bold uppercase tracking-wider">
-                    Stripe Payment Intent
+                    Paystack Reference
                   </p>
                   <p className="text-xs font-mono text-gray-600 mt-1 bg-gray-50 px-3 py-2 rounded-lg break-all border border-gray-100">
-                    {order.stripePaymentIntentId}
+                    {order.paystackReference}
                   </p>
                 </div>
               )}

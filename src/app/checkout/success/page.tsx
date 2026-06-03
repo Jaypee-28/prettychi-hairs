@@ -79,7 +79,7 @@ function SuccessContent() {
       </div>
 
       <p className="text-[10px] font-bold text-gray-300 uppercase tracking-[0.2em]">
-        Luxury Pretty Chi Hairs Experience • London, UK
+        Luxury Pretty Chi Hairs Experience • Lagos, Nigeria
       </p>
     </div>
   );

@@ -152,7 +152,7 @@ export default function AdminNavbar({
               <div className="bg-white rounded-2xl shadow-2xl border border-gray-100 overflow-hidden ring-1 ring-black/5">
                 <div className="p-5 border-b border-gray-50 bg-gray-50/30">
                   <p className="text-sm font-bold text-gray-900">{user?.name || "Admin User"}</p>
-                  <p className="text-xs text-gray-400 mt-0.5 truncate">{user?.email || "admin@hairven.com"}</p>
+                  <p className="text-xs text-gray-400 mt-0.5 truncate">{user?.email || "admin@prettychihairs.com"}</p>
                 </div>
                 <div className="p-2">
                   <button 

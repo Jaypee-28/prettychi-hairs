@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { stripe } from "@/lib/stripe";
+import { initializePayment } from "@/lib/paystack";
 import { orderService } from "@/modules/orders/order.service";
 import { headers } from "next/headers";
 
@@ -23,33 +23,26 @@ export async function POST(req: Request) {
     const headerList = await headers();
     const origin = headerList.get("origin") || "http://localhost:3000";
 
-    // Create Stripe checkout session
-    const session = await stripe.checkout.sessions.create({
-      payment_method_types: ["card"],
-      line_items: [
-        {
-          price_data: {
-            currency: order.currency.toLowerCase(),
-            product_data: {
-              name: `Order #${order.id.slice(-6).toUpperCase()}`,
-              description: `Payment for Pretty Chi Hairs Order`,
-            },
-            unit_amount: Math.round(Number(order.totalAmount) * 100), // Stripe expects cents/pence / kobo / etc.
-          },
-          quantity: 1,
-        },
-      ],
-      mode: "payment",
-      success_url: `${origin}/checkout/success?orderId=${order.id}`,
-      cancel_url: `${origin}/checkout/payment?orderId=${order.id}`,
+    // Create Paystack checkout session
+    const amountInKobo = Math.round(Number(order.totalAmount) * 100);
+    const reference = `ORD_${order.id}_${Date.now()}`;
+
+    // Store the generated reference to verify later
+    await orderService.updatePaystackReference(order.id, reference);
+
+    const session = await initializePayment({
+      email: order.email,
+      amount: amountInKobo,
+      reference,
+      callback_url: `${origin}/checkout/success?orderId=${order.id}`,
       metadata: {
         orderId: order.id,
       },
     });
 
-    return NextResponse.json({ url: session.url });
+    return NextResponse.json({ url: session.authorization_url });
   } catch (error: any) {
-    console.error("Stripe Session Error:", error);
+    console.error("Paystack Session Error:", error);
     return NextResponse.json({ error: error.message }, { status: 500 });
   }
 }

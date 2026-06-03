@@ -141,7 +141,7 @@ export function FeaturedCarousel({ products }: FeaturedCarouselProps) {
             }}
           >
             {/* Inject a <style> tag to hide webkit scrollbar just for this container if needed, though scrollbar-hide usually does it */}
-            <style jsx>{`
+            <style>{`
               div::-webkit-scrollbar {
                 display: none;
               }
@@ -194,7 +194,7 @@ export function FeaturedCarousel({ products }: FeaturedCarouselProps) {
                   </h3>
                   <div className="flex items-center justify-between">
                     <p className="text-gray-900 font-black text-xl">
-                      £{product.price.toFixed(2)}
+                      ₦{product.price.toFixed(2)}
                     </p>
                   </div>
                 </div>

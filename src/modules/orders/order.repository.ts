@@ -22,7 +22,6 @@ export class OrderRepository {
           deliveryFee: data.deliveryFee,
           status: "PENDING",
           paymentStatus: "PENDING",
-          currency: "GBP",
           items: {
             create: data.items.map(item => ({
               productId: item.productId,
@@ -99,15 +98,18 @@ export class OrderRepository {
       data: {
         status,
         paymentStatus
+      },
+      include: {
+        items: true
       }
     });
   }
 
-  async updateStripePaymentIntent(id: string, paymentIntentId: string) {
+  async updatePaystackReference(id: string, reference: string) {
     return prisma.order.update({
       where: { id },
       data: {
-        stripePaymentIntentId: paymentIntentId
+        paystackReference: reference
       }
     });
   }

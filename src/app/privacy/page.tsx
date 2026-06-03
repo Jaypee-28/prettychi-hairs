@@ -39,7 +39,7 @@ export default function PrivacyPolicyPage() {
             <ul className="list-disc pl-5 space-y-2 text-gray-600">
               <li><strong>Identity Data:</strong> First name, last name, username or similar identifier.</li>
               <li><strong>Contact Data:</strong> Billing address, delivery address, email address, and telephone numbers.</li>
-              <li><strong>Financial Data:</strong> Payment card details (processed securely via Stripe).</li>
+              <li><strong>Financial Data:</strong> Payment card details (processed securely via Paystack).</li>
               <li><strong>Transaction Data:</strong> Details about payments to and from you and other details of products and services you have purchased from us.</li>
             </ul>
           </div>
@@ -64,9 +64,9 @@ export default function PrivacyPolicyPage() {
           </div>
 
           <div className="space-y-4">
-            <h2 className="text-2xl font-black text-gray-900 tracking-tight">5. Third-Party Services (Stripe)</h2>
+            <h2 className="text-2xl font-black text-gray-900 tracking-tight">5. Third-Party Services (Paystack)</h2>
             <p>
-              We use Stripe for payment, analytics, and other business services. Stripe collects identifying information about the devices that connect to its services. Stripe uses this information to operate and improve the services it provides to us, including for fraud detection. You can learn more about Stripe and read its privacy policy at stripe.com/privacy.
+              We use Paystack for payment processing. Paystack collects identifying information about the devices that connect to its services and uses this information to operate, improve, and secure its services, including for fraud detection. You can learn more about Paystack and read its privacy policy at paystack.com/privacy.
             </p>
           </div>
 

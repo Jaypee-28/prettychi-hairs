@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { revalidatePath } from "next/cache";
 import { categoryService } from "@/modules/categories/category.service";
 import { CreateCategorySchema } from "@/modules/categories/category.schema";
 
@@ -16,6 +17,7 @@ export async function POST(req: Request) {
     const body = await req.json();
     const parsed = CreateCategorySchema.parse(body);
     const category = await categoryService.createCategory(parsed);
+    revalidatePath("/", "layout");
     return NextResponse.json(category, { status: 201 });
   } catch (error: any) {
     if (error.name === "ZodError") {

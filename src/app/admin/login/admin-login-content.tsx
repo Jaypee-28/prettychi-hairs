@@ -1,111 +1,159 @@
 "use client";
 
-import { useState } from "react";
+import React, { useState } from "react";
 import { signIn } from "next-auth/react";
 import { useRouter, useSearchParams } from "next/navigation";
+import {
+  ShieldCheck,
+  Lock,
+  Mail,
+  ArrowRight,
+  Loader2,
+  Sparkles,
+} from "lucide-react";
+import { toast } from "sonner";
 
 export default function AdminLoginContent() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/admin/products";
+  const callbackUrl = searchParams.get("callbackUrl") || "/admin";
+  const [loading, setLoading] = useState(false);
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+  });
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    setError("");
 
     try {
       const result = await signIn("credentials", {
-        email,
-        password,
+        ...formData,
+        isAdmin: "true",
         redirect: false,
-        callbackUrl,
       });
 
       if (result?.error) {
-        setError("Invalid credentials or insufficient permissions");
+        toast.error("Invalid credentials", {
+          description: "Access to the management portal is restricted to authorized staff.",
+        });
       } else {
+        toast.success("Welcome back", {
+          description: "Authenticated as Pretty Chi Hairs Administrator",
+        });
         router.push(callbackUrl);
       }
-    } catch (err) {
-      setError("An unexpected error occurred");
+    } catch (error) {
+      toast.error("An error occurred during authentication.");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50 px-4">
-      <div className="max-w-md w-full space-y-8 p-10 bg-white rounded-xl shadow-lg border border-gray-100">
-        <div className="text-center">
-          <h1 className="text-3xl font-extrabold text-gray-900 tracking-tight">
-            Pretty Chi Hairs Admin
+    <div className="min-h-screen bg-black flex items-center justify-center p-6 relative overflow-hidden">
+      <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#FF4D8D]/20 rounded-full blur-[120px]"></div>
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-pink-900/20 rounded-full blur-[120px]"></div>
+      </div>
+
+      <div className="w-full max-w-[480px] z-10">
+        <div className="text-center mb-10 space-y-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-pink-500/10 border border-pink-500/20 text-[#FF4D8D] text-[10px] font-black uppercase tracking-[0.2em] mb-4">
+            <ShieldCheck size={12} />
+            <span>Management Portal</span>
+          </div>
+          <h1 className="text-4xl font-black text-white tracking-tighter uppercase">
+            Pretty Chi Hairs&apos;s{" "}
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#FF4D8D] to-pink-400">
+              Studio
+            </span>
           </h1>
-          <p className="mt-2 text-sm text-gray-600">
-            Sign in to manage your premium hair store
+          <p className="text-gray-500 font-medium text-sm tracking-wide">
+            Authorized Personnel Access Only
           </p>
         </div>
-        
-        <form className="mt-8 space-y-6" onSubmit={handleSubmit}>
-          {error && (
-            <div className="bg-red-50 text-red-600 p-3 rounded-md text-sm font-medium border border-red-100">
-              {error}
-            </div>
-          )}
-          
-          <div className="space-y-4">
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-gray-700">
-                Admin Email
-              </label>
-              <input
-                id="email"
-                name="email"
-                type="email"
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-            </div>
-            <div>
-              <label htmlFor="password" className="block text-sm font-medium text-gray-700">
-                Password
-              </label>
-              <input
-                id="password"
-                name="password"
-                type="password"
-                required
-                className="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-black focus:border-black sm:text-sm"
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
-              />
-            </div>
-          </div>
 
-          <div>
+        <div className="bg-white/[0.03] backdrop-blur-2xl p-8 md:p-10 rounded-[2.5rem] border border-white/10 shadow-2xl relative group">
+          <div className="absolute inset-0 rounded-[2.5rem] bg-gradient-to-br from-pink-500/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
+
+          <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
+            <div className="space-y-4">
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">
+                  Staff Email
+                </label>
+                <div className="relative group/field">
+                  <Mail
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within/field:text-[#FF4D8D] transition-colors"
+                    size={18}
+                  />
+                  <input
+                    required
+                    type="email"
+                    value={formData.email}
+                    onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                    className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D8D]/40 focus:ring-4 focus:ring-[#FF4D8D]/5 transition-all placeholder:text-gray-700"
+                    placeholder="name@prettychihairs.com"
+                  />
+                </div>
+              </div>
+
+              <div className="space-y-1.5">
+                <label className="text-[10px] font-black text-gray-500 uppercase tracking-widest ml-1">
+                  Secure Password
+                </label>
+                <div className="relative group/field">
+                  <Lock
+                    className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-600 group-focus-within/field:text-[#FF4D8D] transition-colors"
+                    size={18}
+                  />
+                  <input
+                    required
+                    type="password"
+                    value={formData.password}
+                    onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+                    className="w-full bg-black/40 border border-white/5 rounded-2xl py-4 pl-12 pr-4 text-white font-bold text-sm focus:outline-none focus:border-[#FF4D8D]/40 focus:ring-4 focus:ring-[#FF4D8D]/5 transition-all placeholder:text-gray-700"
+                    placeholder="••••••••"
+                  />
+                </div>
+              </div>
+            </div>
+
             <button
-              type="submit"
               disabled={loading}
-              className="w-full flex justify-center py-3 px-4 border border-transparent rounded-md shadow-sm text-sm font-bold text-white bg-black hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-black disabled:bg-gray-400 transition-colors"
+              className="w-full bg-gradient-to-r from-[#FF4D8D] to-pink-600 text-white py-5 rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center gap-3 hover:shadow-xl hover:shadow-pink-900/20 active:scale-[0.98] transition-all disabled:opacity-70 group/btn"
             >
-              {loading ? "Verifying..." : "Sign In to Dashboard"}
+              {loading ? (
+                <Loader2 className="animate-spin" size={20} />
+              ) : (
+                <>
+                  Enter Dashboard
+                  <ArrowRight
+                    size={18}
+                    className="group-hover/btn:translate-x-1 transition-transform"
+                  />
+                </>
+              )}
             </button>
+          </form>
+        </div>
+
+        <div className="mt-10 flex flex-col items-center gap-6">
+          <div className="flex items-center gap-8 opacity-40 grayscale hover:grayscale-0 transition-all duration-500">
+            <div className="flex items-center gap-2 text-white font-black text-xs">
+              <Sparkles size={14} />
+              SECURE
+            </div>
+            <div className="flex items-center gap-2 text-white font-black text-xs">
+              <Lock size={14} />
+              ENCRYPTED
+            </div>
           </div>
-        </form>
-        
-        <div className="text-center mt-4">
-          <button 
-            onClick={() => router.push("/")}
-            className="text-sm text-gray-500 hover:text-black transition-colors"
-          >
-            &larr; Back to Storefront
-          </button>
+          <p className="text-[10px] font-bold text-gray-600 text-center uppercase tracking-widest">
+            © 2026 Pretty Chi Hairs Internal Systems
+          </p>
         </div>
       </div>
     </div>

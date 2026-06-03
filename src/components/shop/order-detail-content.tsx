@@ -52,7 +52,7 @@ interface OrderDetail {
   addressLine1: string;
   addressLine2?: string | null;
   postalCode: string;
-  stripePaymentIntentId?: string | null;
+  paystackReference?: string | null;
   items: OrderItem[];
   user?: OrderUser | null;
   createdAt: string;
@@ -378,7 +378,7 @@ function OrderItemsSection({ items }: { items: OrderItem[] }) {
                 {item.productName}
               </p>
               <p className="text-xs font-bold text-gray-400 mt-1">
-                Qty: {item.quantity} × £{item.price.toFixed(2)}
+                Qty: {item.quantity} × ₦{item.price.toFixed(2)}
               </p>
 
               {/* Variant Pills */}
@@ -399,7 +399,7 @@ function OrderItemsSection({ items }: { items: OrderItem[] }) {
             {/* Price */}
             <div className="text-right shrink-0">
               <p className="text-sm font-black text-gray-900">
-                £{(item.price * item.quantity).toFixed(2)}
+                ₦{(item.price * item.quantity).toFixed(2)}
               </p>
             </div>
           </div>
@@ -436,7 +436,7 @@ function OrderSummarySection({
         <div className="flex justify-between items-center">
           <span className="text-sm font-bold text-gray-500">Subtotal</span>
           <span className="text-sm font-black text-gray-900">
-            £{subtotal.toFixed(2)}
+            ₦{subtotal.toFixed(2)}
           </span>
         </div>
         <div className="flex justify-between items-center">
@@ -445,7 +445,7 @@ function OrderSummarySection({
             <Truck size={14} className="text-[#FF4D8D]" />
           </div>
           <span className="text-sm font-black text-gray-900">
-            £{order.deliveryFee.toFixed(2)}
+            ₦{order.deliveryFee.toFixed(2)}
           </span>
         </div>
         <div className="h-px bg-gray-100 my-4" />
@@ -455,7 +455,7 @@ function OrderSummarySection({
               Total Amount
             </span>
             <p className="text-3xl font-black text-[#FF4D8D] leading-none mt-1">
-              £{order.totalAmount.toFixed(2)}
+              ₦{order.totalAmount.toFixed(2)}
             </p>
           </div>
           <span className="text-xs font-black text-gray-400 uppercase tracking-widest">
@@ -565,14 +565,13 @@ function PaymentInfoSection({ order }: { order: OrderDetail }) {
           </span>
         </div>
 
-        {order.stripePaymentIntentId && (
+        {(order as any).paystackReference && (
           <div>
             <p className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1">
-              Stripe Payment ID
+              Paystack Reference
             </p>
-            <p className="text-sm font-mono font-bold text-gray-600 bg-gray-50 px-4 py-3 rounded-xl">
-              {order.stripePaymentIntentId.slice(0, 8)}...
-              {order.stripePaymentIntentId.slice(-8)}
+            <p className="text-sm font-mono font-bold text-gray-600 bg-gray-50 px-4 py-3 rounded-xl break-all">
+              {(order as any).paystackReference}
             </p>
           </div>
         )}

@@ -47,7 +47,7 @@ export default function TermsPage() {
               We reserve the right to refuse any order you place with us. In the event that we make a change to or cancel an order, we may attempt to notify you by contacting the email and/or billing address/phone number provided at the time the order was made.
             </p>
             <p>
-              Prices for our products are subject to change without notice. All payments are securely processed via Stripe.
+              Prices for our products are subject to change without notice. All payments are securely processed via Paystack.
             </p>
           </div>
 

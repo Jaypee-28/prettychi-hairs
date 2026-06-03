@@ -33,7 +33,7 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
           `<tr>
             <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6; font-family: 'Inter', sans-serif; font-size: 14px; color: #374151;">${item.productName}</td>
             <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6; font-family: 'Inter', sans-serif; font-size: 14px; color: #374151; text-align: center;">${item.quantity}</td>
-            <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6; font-family: 'Inter', sans-serif; font-size: 14px; color: #374151; text-align: right;">£${item.price.toFixed(2)}</td>
+            <td style="padding: 12px 16px; border-bottom: 1px solid #f3f4f6; font-family: 'Inter', sans-serif; font-size: 14px; color: #374151; text-align: right;">₦${item.price.toFixed(2)}</td>
           </tr>`
       )
       .join("");
@@ -80,15 +80,15 @@ export async function sendOrderConfirmationEmail(data: OrderEmailData): Promise<
           <div style="border-top: 2px solid #f3f4f6; padding-top: 16px; margin-bottom: 24px;">
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 14px; color: #6b7280;">Subtotal</span>
-              <span style="font-size: 14px; color: #374151; font-weight: 600;">£${subtotal.toFixed(2)}</span>
+              <span style="font-size: 14px; color: #374151; font-weight: 600;">₦${subtotal.toFixed(2)}</span>
             </div>
             <div style="display: flex; justify-content: space-between; margin-bottom: 8px;">
               <span style="font-size: 14px; color: #6b7280;">Delivery</span>
-              <span style="font-size: 14px; color: #374151; font-weight: 600;">£${data.deliveryFee.toFixed(2)}</span>
+              <span style="font-size: 14px; color: #374151; font-weight: 600;">₦${data.deliveryFee.toFixed(2)}</span>
             </div>
             <div style="display: flex; justify-content: space-between; padding-top: 12px; border-top: 2px solid #111827;">
               <span style="font-size: 16px; color: #111827; font-weight: 800;">Total</span>
-              <span style="font-size: 16px; color: #111827; font-weight: 800;">£${data.totalAmount.toFixed(2)}</span>
+              <span style="font-size: 16px; color: #111827; font-weight: 800;">₦${data.totalAmount.toFixed(2)}</span>
             </div>
           </div>
 
@@ -137,7 +137,7 @@ export async function sendNewOrderAdminAlert(data: OrderEmailData): Promise<void
             </div>
             <div style="background: #f0fdf4; border-radius: 12px; padding: 16px;">
               <p style="margin: 0; font-size: 12px; color: #9ca3af; text-transform: uppercase; font-weight: 700;">Order Total</p>
-              <p style="margin: 4px 0 0; font-size: 24px; color: #16a34a; font-weight: 800;">£${data.totalAmount.toFixed(2)}</p>
+              <p style="margin: 4px 0 0; font-size: 24px; color: #16a34a; font-weight: 800;">₦${data.totalAmount.toFixed(2)}</p>
             </div>
             <div style="background: #f9fafb; border-radius: 12px; padding: 16px;">
               <p style="margin: 0; font-size: 12px; color: #9ca3af; text-transform: uppercase; font-weight: 700;">Items</p>
@@ -155,7 +155,7 @@ export async function sendNewOrderAdminAlert(data: OrderEmailData): Promise<void
 
     await sendEmail({
       to: adminEmail,
-      subject: `New Order — £${data.totalAmount.toFixed(2)} from ${data.customerName}`,
+      subject: `New Order — ₦${data.totalAmount.toFixed(2)} from ${data.customerName}`,
       html,
     });
 
