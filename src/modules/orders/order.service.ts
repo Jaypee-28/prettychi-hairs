@@ -60,10 +60,10 @@ export class OrderService {
         deliveryFee: Number(order.deliveryFee),
         deliveryAddress: {
           addressLine1: order.addressLine1,
-          addressLine2: order.addressLine2 || undefined,
+          addressLine2: order.addressLine2 || "",
           city: order.city,
-          state: order.state || undefined,
-          postalCode: order.postalCode || undefined,
+          state: order.state || "",
+          postalCode: order.postalCode || "",
           country: order.country,
         },
       };
