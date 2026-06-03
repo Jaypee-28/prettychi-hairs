@@ -1,7 +1,7 @@
 import { auth } from "./auth.edge"
 
 // Define routes with special handling
-const authRoutes = ["/login", "/register", "/admin/motioncodes"]
+const authRoutes = ["/login", "/register", "/admin/login"]
 const protectedRoutes = ["/checkout", "/account", "/orders"]
 const apiAuthPrefix = "/api/auth"
 
@@ -22,12 +22,12 @@ export const proxy = auth((req) => {
   if (isAuthRoute) {
     if (isLoggedIn) {
       // If logged in as admin and at admin portal, redirect to dashboard
-      if (user?.userType === "admin" && nextUrl.pathname === "/admin/motioncodes") {
+      if (user?.userType === "admin" && nextUrl.pathname === "/admin/login") {
         return Response.redirect(new URL("/admin", nextUrl))
       }
       
       // If logged in as user and at admin portal, redirect to home
-      if (user?.userType === "user" && nextUrl.pathname === "/admin/motioncodes") {
+      if (user?.userType === "user" && nextUrl.pathname === "/admin/login") {
         return Response.redirect(new URL("/", nextUrl))
       }
 
@@ -41,7 +41,7 @@ export const proxy = auth((req) => {
   // 3. Handle Admin Routes (/admin/*)
   if (isAdminRoute) {
     if (!isLoggedIn) {
-      return Response.redirect(new URL("/admin/motioncodes", nextUrl))
+      return Response.redirect(new URL("/admin/login", nextUrl))
     }
     
     // Strict check: Must be an admin userType
